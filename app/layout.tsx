@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import '@radix-ui/themes/styles.css';
-import { Button, Theme } from '@radix-ui/themes';
+import { Theme } from '@radix-ui/themes';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 
 
 export const metadata: Metadata = {

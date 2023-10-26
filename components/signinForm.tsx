@@ -45,6 +45,7 @@ export default function SignInForm() {
     console.log('signed in: ', signInData);
     if (signInData?.ok) {
       setLoginStatus('');
+      router.refresh();
       router.push('/channel/public');
     } else {
       // TODO get message about failure from api/auth
