@@ -4,9 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Flex, Text, Button } from '@radix-ui/themes';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FormSchema = z
   .object({
@@ -18,8 +20,6 @@ const FormSchema = z
   });
 
 export default function SignInForm() {
-
-  const [loginStatus, setLoginStatus] = useState('');
 
   const {
     register,
@@ -44,12 +44,14 @@ export default function SignInForm() {
     });
     console.log('signed in: ', signInData);
     if (signInData?.ok) {
-      setLoginStatus('');
       router.refresh();
       router.push('/channel/public');
     } else {
       // TODO get message about failure from api/auth
-      setLoginStatus('Failed to Login');
+      toast('Failed to login', {
+        theme: 'dark',
+        hideProgressBar: true,
+      });
     }
   };
 
@@ -72,7 +74,7 @@ export default function SignInForm() {
         </form>
         <Text className='text-center'> -------------------- or -------------------- </Text>
         <Button onClick={(data) => console.log('yesyes githubing time', data)}>Sign In with GitHub</Button>
-        {loginStatus && <span className='text-red-500'>{loginStatus}</span>}
+        <ToastContainer />
       </Flex>
     </div>
   );
