@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import SignIn from '@/components/signinForm';
 import Link from 'next/link';
 
 export default function Home() {
