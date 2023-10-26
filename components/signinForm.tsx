@@ -2,13 +2,15 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flex, Text, Button } from '@radix-ui/themes';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
 const FormSchema = z
   .object({
     email: z.string().min(1, 'Email is required').email('Email is invalid'),
-    username: z.string().min(1, 'Username is required').max(100),
     password: z
       .string()
       .min(1, 'Password is required')
@@ -16,6 +18,9 @@ const FormSchema = z
   });
 
 export default function SignInForm() {
+
+  const [loginStatus, setLoginStatus] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -24,30 +29,50 @@ export default function SignInForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
-      username: '',
       password: '',
     }
   });
-  const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = (data) => console.log(data);
+
+  const router = useRouter();
+  const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (data, e?: React.BaseSyntheticEvent) => {
+    e?.preventDefault();
+    console.log(data);
+    const signInData = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    console.log('signed in: ', signInData);
+    if (signInData?.ok) {
+      setLoginStatus('');
+      router.push('/channel/public');
+    } else {
+      // TODO get message about failure from api/auth
+      setLoginStatus('Failed to Login');
+    }
+  };
 
   return (
-    <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="2">
+    <div className='w-full h-full' >
+      <Flex direction="column" gap="5">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Flex direction="column" gap="3">
 
-        <Text>email</Text>
-        <input {...register('email')} />
-        {errors.email?.message && <span className='text-red-500'>{errors.email?.message}</span>}
+            <Text>email</Text>
+            <input {...register('email')} />
+            {errors.email?.message && <span className='text-red-500'>{errors.email?.message}</span>}
 
-        <Text>username</Text>
-        <input {...register('username')} />
-        {errors.username?.message && <span className='text-red-500'>{errors.username?.message}</span>}
+            <Text>password</Text>
+            <input {...register('password')} />
+            {errors.password?.message && <span className='text-red-500'>{errors.password?.message}</span>}
 
-        <Text>password</Text>
-        <input {...register('password')} />
-        {errors.password?.message && <span className='text-red-500'>{errors.password?.message}</span>}
-
-        <Button>Sign In</Button>
+            <Button>Sign In</Button>
+          </Flex>
+        </form>
+        <Text className='text-center'> -------------------- or -------------------- </Text>
+        <Button onClick={(data) => console.log('yesyes githubing time', data)}>Sign In with GitHub</Button>
+        {loginStatus && <span className='text-red-500'>{loginStatus}</span>}
       </Flex>
-    </form>
+    </div>
   );
 }

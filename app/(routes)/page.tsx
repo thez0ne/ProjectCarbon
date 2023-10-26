@@ -8,6 +8,7 @@ export default function Home() {
       HELLO
       <Link href={'/login'}>Login</Link>
       <Link href={'/signup'}>Register</Link>
+      <Link href={'/channel/public'}>Public Channel</Link>
     </main>
   );
 }

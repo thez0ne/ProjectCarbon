@@ -18,6 +18,11 @@ export async function GET() {
   return NextResponse.json({ message: users }, { status: 200 });
 }
 
+export async function DELETE() {
+  const _ = await prisma.user.deleteMany();
+  return NextResponse.json({ message: 'deleted everythign' }, { status: 200 });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
