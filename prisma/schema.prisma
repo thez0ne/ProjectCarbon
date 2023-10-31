@@ -8,15 +8,28 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String   @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  username  String    @unique
   password  String
-  createAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  // messages  Message[]
+  createAt  DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
   // profile   Profile?
 }
 
-// model Message {
-// }
+model Channel {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  messages Message[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  channel   Channel  @relation(fields: [channelid], references: [id])
+  channelid Int
+  user      User     @relation(fields: [userid], references: [id])
+  userid    Int
+  sentAt    DateTime @default(now())
+}
