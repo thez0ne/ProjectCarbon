@@ -57,9 +57,9 @@ export default function SignInForm() {
 
   return (
     <div className='w-full h-full' >
-      <Flex direction="column" gap="5">
+      <Flex direction='column' gap='5'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Flex direction="column" gap="3">
+          <Flex direction='column' gap='3'>
 
             <Text>email</Text>
             <input {...register('email')} />

@@ -66,7 +66,7 @@ export default function SignUpForm() {
 
   return (
     <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="2">
+      <Flex direction='column' gap='2'>
         {/* TODO: Add red outlines around input when validation fails */}
         <Text>email</Text>
         <input placeholder='Enter your email' {...register('email')} />

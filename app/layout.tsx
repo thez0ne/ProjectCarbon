@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import '@radix-ui/themes/styles.css';
-import { Theme } from '@radix-ui/themes';
+import { Theme, ThemePanel } from '@radix-ui/themes';
 import Link from 'next/link';
 
 
@@ -17,11 +17,12 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
-        <Theme appearance="dark" accentColor="amber" grayColor="slate" radius="small">
+        <Theme appearance='dark' accentColor='amber' grayColor='slate' radius='small'>
           <Link href={'/'}>Home</Link>
           {children}
+          {/* <ThemePanel /> */}
         </Theme>
       </body>
     </html>

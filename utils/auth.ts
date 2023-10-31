@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
     // ...add more providers here
     // taken from next-auth docs: https://next-auth.js.org/providers/credentials
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
+      // The name to display on the sign in form (e.g. 'Sign in with...')
       // id: 'credential-login',
       name: 'Credentials',
       // `credentials` is used to generate a form on the sign in page.
