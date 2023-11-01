@@ -1,8 +1,8 @@
 import { authOptions } from '@/utils/auth';
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/utils/prisma';
-import { Button, TextField } from '@radix-ui/themes';
 import ChannelInput from '@/components/channel/channelInput';
+import Messages from '@/components/channel/messages';
 
 type user = {
   username: string,
@@ -19,6 +19,7 @@ type channel = {
   name: string,
 };
 
+// TODO setup proper channels (private and public)
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   console.log(session);
@@ -46,7 +47,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (session?.user) {
     return (
       <div className='flex min-h-screen flex-col items-center justify-between p-24'>
-        My Post: {params.id}
+        Your username is: {session.user.username} and we are on channel: {params.id}
+        <Messages user={session.user.username} channelName='Test' />
         <div>
           {channel?.messages.map((element: message, index: number) => (
             <div className='mb-8' key={index}>

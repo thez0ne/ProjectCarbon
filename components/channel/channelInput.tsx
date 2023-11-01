@@ -30,6 +30,17 @@ export default function ChannelInput({ user, channelName }: { user: any, channel
     }
   };
 
+  // TODO setup keypress
+  // const handleKeypress = (e: { keyCode: number; }) => {
+  //   //it triggers by pressing the enter key
+  //   if (e.keyCode === 13) {
+  //     if (message) {
+  //       sendMessage();
+  //     }
+  //   }
+  // };
+
+  // TODO connect this to the socket realtime temp chat window
   return (
     <div className='flex w-full'>
       <TextField.Root>
