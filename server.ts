@@ -42,7 +42,7 @@ app.prepare().then(() => {
   io.on('connection', socket => {
     // your sockets here
     console.log('IO_CONNECTION', socket.id);
-    socket.on('createdMessage', (msg: Message) => {
+    socket.on('createdMessage', (msg) => {
       console.log('new message received');
       socket.broadcast.emit('messageReceived', msg);
     });
