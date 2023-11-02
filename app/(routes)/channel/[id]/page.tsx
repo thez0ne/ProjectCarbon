@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <p className='font-bold text-white text-xl'>
           Your username is: {session.user.username} and we are on channel: {params.id}
         </p>
-        <ChatWindow givenUser={session.user.username} channelName='Test' currentMessages={channel?.messages} />
+        <ChatWindow givenUser={session.user.username} channelName='Test' currentMessages={channel?.messages as Message[]} />
       </div>
     );
   }

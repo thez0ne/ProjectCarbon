@@ -87,7 +87,7 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
         <TextField.Root>
           <TextField.Input
             value={inputMessage}
-            onInput={e => setInputMessage(e.target.value)}
+            onInput={e => setInputMessage((e.target as HTMLInputElement).value)}
             placeholder='Enter Message'
             onKeyUp={handleKeypress}
           ></TextField.Input>
