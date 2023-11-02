@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import '@radix-ui/themes/styles.css';
 import { Theme, ThemePanel } from '@radix-ui/themes';
-import Link from 'next/link';
 import { SessionProvider } from '@/components/sessionProvider';
-import SignOutButton from '@/components/signOutButton';
+import Navbar from '@/components/navbar';
 
 export const metadata: Metadata = {
   title: 'Project Carbon',
@@ -22,8 +21,7 @@ export default function RootLayout({
       <body>
         <Theme appearance='dark' accentColor='amber' grayColor='slate' radius='small'>
           <SessionProvider>
-            <Link href={'/'}>Home</Link>
-            <SignOutButton />
+            <Navbar />
             {children}
             {/* <ThemePanel /> */}
           </SessionProvider>

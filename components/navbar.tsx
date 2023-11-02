@@ -1,9 +1,16 @@
+import { Link } from '@radix-ui/themes';
+import LogOutButton from './signOutButton';
+import LogInButton from './signInButton';
 
-
-// TODO put changing sign in and sign out buttons here based on session
-// for sign out: `${window.location.origin}/`
 export default function Navbar() {
+
   return (
-    <div>NAVBAR</div>
+    <div className='w-full flex flex-row'>
+      {/* NAVBAR */}
+      <Link className='justify-end' href={'/'}>Home</Link>
+
+      <LogOutButton className='justify-end' />
+      <LogInButton className='justify-end' />
+    </div>
   );
 }
