@@ -55,6 +55,11 @@ export default function SignInForm() {
     }
   };
 
+  const signInWithGithub = async (data: any) => {
+    console.log('yesyes githubing time', data);
+    signIn('github', { callbackUrl: '/', redirect: false });
+  };
+
   return (
     <div className='w-full h-full' >
       <Flex direction='column' gap='5'>
@@ -73,7 +78,7 @@ export default function SignInForm() {
           </Flex>
         </form>
         <Text className='text-center'> -------------------- or -------------------- </Text>
-        <Button onClick={(data) => console.log('yesyes githubing time', data)}>Sign In with GitHub</Button>
+        <Button onClick={signInWithGithub}>Sign In with GitHub</Button>
         <ToastContainer />
       </Flex>
     </div>

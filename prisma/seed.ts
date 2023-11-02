@@ -7,7 +7,7 @@ async function main() {
     where: { email: 'anik_patel@live.com' },
     update: {},
     create: {
-      email: 'anik_patel@live.com',
+      email: 'anik_pael@live.com',
       username: 'ca',
       password: '$2b$10$ovhq5xYEZsi5KANipIVEcePru1o4Ag3/Hs1TKl8hENjHKgWYYLw4i',
     },
@@ -16,7 +16,7 @@ async function main() {
     where: { email: 'neojinxd@gmail.com' },
     update: {},
     create: {
-      email: 'neojinxd@gmail.com',
+      email: 'neojixd@gmail.com',
       username: 'fe',
       password: '$2b$10$ovhq5xYEZsi5KANipIVEcePru1o4Ag3/Hs1TKl8hENjHKgWYYLw4i',
     },

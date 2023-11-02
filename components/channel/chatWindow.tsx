@@ -6,8 +6,8 @@ import { Socket, io } from 'socket.io-client';
 
 let socket: Socket;
 
-export default function ChatWindow({ user, channelName, currentMessages }: { user: any, channelName: string, currentMessages: Array<Message> }) {
-  const [message, setMessage] = useState('');
+export default function ChatWindow({ givenUser, channelName, currentMessages }: { givenUser: string, channelName: string, currentMessages: Array<Message> }) {
+  const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Array<Message>>([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function ChatWindow({ user, channelName, currentMessages }: { use
       console.log('someone sent: ', msg);
       setMessages((currentMsg) => [
         ...currentMsg,
-        { user: msg.user, content: msg.content, sentAt: msg.sentAt },
+        { user: msg.user, content: msg.content, sentAt: new Date(msg.sentAt) },
       ]);
     });
     return () => { socket.disconnect(); }; //Close socket on UNMOUNT
@@ -36,8 +36,8 @@ export default function ChatWindow({ user, channelName, currentMessages }: { use
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: user,
-        message: message,
+        username: givenUser,
+        message: inputMessage,
         channel: channelName
       }),
     });
@@ -47,20 +47,20 @@ export default function ChatWindow({ user, channelName, currentMessages }: { use
     }
 
     // sending to other users
-    socket.emit('createdMessage', { user: user, message, sentAt: msgDate });
+    socket.emit('createdMessage', { user: { username: givenUser }, content: inputMessage, sentAt: msgDate });
 
     // adding message locally
     setMessages((currentMsg) => [
       ...currentMsg,
-      { user: user, content: message, sentAt: msgDate },
+      { user: { username: givenUser }, content: inputMessage, sentAt: msgDate },
     ]);
-    setMessage('');
+    setInputMessage('');
   };
 
   const handleKeypress = (e: { keyCode: number; }) => {
     //it triggers by pressing the enter key
     if (e.keyCode === 13) {
-      if (message) {
+      if (inputMessage) {
         sendMessage();
       }
       console.log('enter was pressed');
@@ -75,6 +75,7 @@ export default function ChatWindow({ user, channelName, currentMessages }: { use
           <div className="h-full last:border-b-0 overflow-y-scroll">
             {messages.map((msg: Message, i: number) => {
               // TODO setup using a message component
+              console.log(msg);
               return (
                 <div
                   className="w-full py-1 px-2 border-b border-gray-200"
@@ -93,8 +94,8 @@ export default function ChatWindow({ user, channelName, currentMessages }: { use
       <div className='flex w-full'>
         <TextField.Root>
           <TextField.Input
-            value={message}
-            onInput={e => setMessage(e.target.value)}
+            value={inputMessage}
+            onInput={e => setInputMessage(e.target.value)}
             placeholder='Enter Message'
             onKeyUp={handleKeypress}
           ></TextField.Input>

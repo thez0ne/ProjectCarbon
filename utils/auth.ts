@@ -2,7 +2,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from './prisma';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
+import GithubProvider, { GithubProfile } from 'next-auth/providers/github';
 import { compare } from 'bcrypt';
 
 
@@ -11,18 +11,25 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
   },
   secret: process.env.NEXTAUTH_SECRET || 'DEV',
+  debug: process.env.NODE_ENV === 'development',
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt',
   },
-  // Configure one or more authentication providers
-  // TODO setup github
   providers: [
-    // GithubProvider({
-    //   id: 'github-login',
-    //   clientId: process.env.GITHUB_ID!,
-    //   clientSecret: process.env.GITHUB_SECRET!,
-    // }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      profile(profile: GithubProfile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name,
+          username: profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+        };
+      },
+    }),
 
     // ...add more providers here
     // taken from next-auth docs: https://next-auth.js.org/providers/credentials
@@ -44,22 +51,24 @@ export const authOptions: NextAuthOptions = {
           console.error('no creds given');
           return null;
         }
-        
+
         const existingUser = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-        
+
         if (!existingUser) {
           // user doesnt exist
           console.error('user doesnt exist');
           return null;
         }
-        
-        const passwordMatch = await compare(credentials.password, existingUser.password);
-        if (!passwordMatch) {
-          // wrong password
-          console.error('incorrect password');
-          return null;
+
+        if (existingUser.password) {
+          const passwordMatch = await compare(credentials.password, existingUser.password);
+          if (!passwordMatch) {
+            // wrong password
+            console.error('incorrect password');
+            return null;
+          }
         }
 
         console.log('success');
@@ -73,7 +82,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user}) {
+    async jwt({ token, user }) {
       if (user) {
         return {
           ...token,
@@ -91,5 +100,19 @@ export const authOptions: NextAuthOptions = {
         }
       };
     },
+    // async signIn({ user }) {
+    //   let isAllowedToSignIn = true;
+    //   const allowedUser = [
+    //     '12958600',
+    //   ];
+    //   console.log('The following user is trying to sign in: ', user);
+    //   if (allowedUser.includes(String(user.id))) {
+    //     isAllowedToSignIn = true;
+    //   }
+    //   else {
+    //     isAllowedToSignIn = false;
+    //   }
+    //   return isAllowedToSignIn;
+    // }
   }
 };
