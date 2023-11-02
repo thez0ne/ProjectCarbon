@@ -3,6 +3,7 @@
 import { Button, TextField } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
+import Message from './message';
 
 let socket: Socket;
 
@@ -24,7 +25,7 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
       ]);
     });
     return () => { socket.disconnect(); }; //Close socket on UNMOUNT
-  }, []);
+  }, [currentMessages]);
 
   const sendMessage = async () => {
     const msgDate = new Date();
@@ -73,18 +74,9 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
       <div className='w-full'>
         <div className="flex flex-col justify-end h-[20rem] min-w-[33%] rounded-md shadow-md ">
           <div className="h-full last:border-b-0 overflow-y-scroll">
-            {messages.map((msg: Message, i: number) => {
-              // TODO setup using a message component
-              console.log(msg);
-              return (
-                <div
-                  className="w-full py-1 px-2 border-b border-gray-200"
-                  key={i}
-                >
-                  [{msg.sentAt.toISOString().split('T')[0]} : {msg.sentAt.toISOString().split('T')[1]}] {msg.user.username} : {msg.content}
-                </div>
-              );
-            })}
+            {messages.map((msg: Message, i: number) => (
+              <Message messageSender={msg.user.username} messageContent={msg.content} messageDate={msg.sentAt} key={i} />
+            ))}
           </div>
         </div>
       </div>
