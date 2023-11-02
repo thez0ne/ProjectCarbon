@@ -3,13 +3,18 @@ import { prisma } from '@/utils/prisma';
 
 // TODO make sure only authenticated users can send messages
 
+export async function GET() {
+  const messages = await prisma.message.findMany();
+  return NextResponse.json({ messages: messages }, { status: 200 });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { username, message, channel } = body;
 
     console.log(`I am ${username} received: ${message} and ${channel}`);
-    
+
     // TODO validate message
 
     await prisma.message.create({

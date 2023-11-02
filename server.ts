@@ -39,11 +39,10 @@ app.prepare().then(() => {
   });
 
   // TODO setup rooms
-  // TODO fix connection being fired on each key press in temp input field
   io.on('connection', socket => {
     // your sockets here
     console.log('IO_CONNECTION', socket.id);
-    socket.on('createdMessage', (msg) => {
+    socket.on('createdMessage', (msg: Message) => {
       console.log('new message received');
       socket.broadcast.emit('messageReceived', msg);
     });
