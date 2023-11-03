@@ -42,9 +42,12 @@ app.prepare().then(() => {
   io.on('connection', socket => {
     // your sockets here
     console.log('IO_CONNECTION', socket.id);
+    const roomName = socket.handshake.headers.referer.split('/').at(-1);
+    console.log('IO_REFERER', roomName);
+    socket.join(roomName);
     socket.on('createdMessage', (msg) => {
-      console.log('new message received');
-      socket.broadcast.emit('messageReceived', msg);
+      console.log('new message received: ', roomName);
+      socket.to(roomName).emit('messageReceived', msg);
     });
   });
 
