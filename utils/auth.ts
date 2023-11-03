@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
           username: profile.login,
           email: profile.email,
           image: profile.avatar_url,
+          isAdmin: false,
         };
       },
     }),
@@ -77,6 +78,8 @@ export const authOptions: NextAuthOptions = {
           id: `${existingUser.id}`,
           email: existingUser.email,
           username: existingUser.username,
+          isAdmin: existingUser.isAdmin,
+          image: existingUser.image,
         };
       }
     }),
@@ -87,6 +90,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           username: user.username,
+          isAdmin: user.isAdmin,
         };
       }
       return token;
@@ -97,22 +101,9 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           username: token.username,
+          isAdmin: token.isAdmin,
         }
       };
     },
-    // async signIn({ user }) {
-    //   let isAllowedToSignIn = true;
-    //   const allowedUser = [
-    //     '12958600',
-    //   ];
-    //   console.log('The following user is trying to sign in: ', user);
-    //   if (allowedUser.includes(String(user.id))) {
-    //     isAllowedToSignIn = true;
-    //   }
-    //   else {
-    //     isAllowedToSignIn = false;
-    //   }
-    //   return isAllowedToSignIn;
-    // }
   }
 };

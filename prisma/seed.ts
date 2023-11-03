@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   const newUser = await prisma.user.upsert({
-    where: { email: 'anik_patel@live.com' },
+    where: { email: 'anik_pael@live.com' },
     update: {},
     create: {
       email: 'anik_pael@live.com',
@@ -13,7 +13,7 @@ async function main() {
     },
   });
   const newUser2 = await prisma.user.upsert({
-    where: { email: 'neojinxd@gmail.com' },
+    where: { email: 'neojixd@gmail.com' },
     update: {},
     create: {
       email: 'neojixd@gmail.com',
@@ -21,23 +21,49 @@ async function main() {
       password: '$2b$10$ovhq5xYEZsi5KANipIVEcePru1o4Ag3/Hs1TKl8hENjHKgWYYLw4i',
     },
   });
+  const adminUser = await prisma.user.upsert({
+    where: { email: 'anik_patel@live.com' },
+    update: {},
+    create: {
+      email: 'anik_patel@live.com',
+      username: 'anik',
+      password: '$2b$10$ovhq5xYEZsi5KANipIVEcePru1o4Ag3/Hs1TKl8hENjHKgWYYLw4i',
+      isAdmin: true,
+    },
+  });
 
-  const newChannel = await prisma.channel.upsert({
+  const publicChannel = await prisma.channel.upsert({
     where: { name: 'Test' },
     update: {},
     create: {
       name: 'Test',
+      uriSlug: 'public',
       messages: {
         create: [
           {
             userid: newUser.id,
-            // user: newUser,
-            content: 'msg1',
+            content: 'public msg1',
           },
           {
             userid: newUser2.id,
-            // user: newUser,
-            content: 'msg2',
+            content: 'public msg2',
+          },
+        ]
+      }
+    },
+  });
+  const privateChannel = await prisma.channel.upsert({
+    where: { name: 'Admin' },
+    update: {},
+    create: {
+      name: 'Admin',
+      uriSlug: 'thez0ne',
+      needsAdmin: true,
+      messages: {
+        create: [
+          {
+            userid: adminUser.id,
+            content: 'test message in private',
           },
         ]
       }

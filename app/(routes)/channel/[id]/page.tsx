@@ -10,9 +10,10 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const channel = await prisma.channel.findUnique(
     {
-      where: { name: 'Test' },
+      where: { uriSlug: params.id },
       select: {
         name: true,
+        needsAdmin: true,
         messages: {
           select: {
             content: true,
@@ -27,21 +28,41 @@ export default async function Page({ params }: { params: { id: string } }) {
       },
     });
 
-  // TODO clean up like back in the_z0ne
-  if (session?.user) {
+  // check if user is logged in
+  if (!session?.user) {
     return (
       <div className='flex min-h-screen flex-col items-center justify-between p-24'>
-        <p className='font-bold text-white text-xl'>
-          Your username is: {session.user.username} and we are on channel: {params.id}
-        </p>
-        <ChatWindow givenUser={session.user.username} channelName='Test' currentMessages={channel?.messages as Message[]} />
+        Not Logged in
       </div>
     );
   }
 
+  // check if channel exists
+  if (!channel) {
+    return (
+      <div className='flex min-h-screen flex-col items-center justify-between p-24'>
+        Invalid Channel
+      </div>
+    );
+  }
+
+  // check if user has access to channel
+  if (channel.needsAdmin) {
+    if (!session.user.isAdmin) {
+      return (
+        <div className='flex min-h-screen flex-col items-center justify-between p-24'>
+          Access Denied
+        </div>
+      );
+    }
+  }
+
   return (
     <div className='flex min-h-screen flex-col items-center justify-between p-24'>
-      Not Logged in
+      <p className='font-bold text-white text-xl'>
+        Your username is: {session.user.username} and we are on channel: {params.id}
+      </p>
+      <ChatWindow givenUser={session.user.username} channelName={channel.name} currentMessages={channel?.messages as Message[]} />
     </div>
   );
 }
