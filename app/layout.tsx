@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import '@radix-ui/themes/styles.css';
+import '@/styles/theme-styles.css';
 import { Theme, ThemePanel } from '@radix-ui/themes';
 import { SessionProvider } from '@/components/sessionProvider';
 import Navbar from '@/components/navbar';
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Project Carbon',
   description: 'Another Alternative Chat App',
   icons: {
-    shortcut: './carbonlogowbkg.svg',
+    shortcut: './favicon.ico',
   },
   openGraph: {
     title: 'Project Carbon',
