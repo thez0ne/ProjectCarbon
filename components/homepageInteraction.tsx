@@ -3,15 +3,13 @@
 import { Flex, Button } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-// import { useRouter } from 'next/navigation';
 import LogOutButton from './signOutButton';
 import LogInButton from './signInButton';
+import RegisterButton from './registerButton';
 
 
 export default function HomepageInteraction() {
   const { data: session } = useSession();
-  // session?.user.isAdmin;
-  // const router = useRouter();
 
   return (
     <div>
@@ -33,10 +31,8 @@ export default function HomepageInteraction() {
         :
         <>
           <Flex justify='center' gap='3'>
-            <LogInButton className='justify-end' />
-            <Button className='mx-10'>
-              <Link href={'/signup'}>Register</Link>
-            </Button>
+            <LogInButton />
+            <RegisterButton />
           </Flex>
         </>}
     </div >
