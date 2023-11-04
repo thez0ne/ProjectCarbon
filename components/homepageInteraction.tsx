@@ -7,7 +7,7 @@ import LogOutButton from './signOutButton';
 import LogInButton from './signInButton';
 import RegisterButton from './registerButton';
 
-
+// TODO remove link, make buttons have on click
 export default function HomepageInteraction() {
   const { data: session } = useSession();
 
@@ -16,7 +16,7 @@ export default function HomepageInteraction() {
       {session ?
         <>
           <Flex justify='center' gap='3'>
-            <LogOutButton className='justify-end' />
+            <LogOutButton />
             {/* TODO: Populate rooms based on db */}
             <Button>
               <Link href={'/channel/public'}>Go to Public Room</Link>

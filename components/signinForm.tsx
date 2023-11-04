@@ -66,11 +66,11 @@ export default function SignInForm() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex direction='column' gap='3'>
 
-            <Text as='div' size='3' mb='-2' weight='bold'>Email</Text>
+            <Text as='label' size='3' mb='-2' weight='bold'>Email</Text>
             <input className='px-2 py-2' placeholder='Enter your email' {...register('email')} />
             {errors.email?.message && <span className='text-red-500'>{errors.email?.message}</span>}
 
-            <Text as='div' size='3' mb='-2' weight='bold'>Password</Text>
+            <Text as='label' size='3' mb='-2' weight='bold'>Password</Text>
             <input className='px-2 py-2' placeholder='Enter your password' type='password' {...register('password')} />
             {errors.password?.message && <span className='text-red-500'>{errors.password?.message}</span>}
 

@@ -69,19 +69,19 @@ export default function SignUpForm() {
       <Flex direction='column' gap='5'>
         <Flex direction='column' gap='3'>
           {/* TODO: Add red outlines around input when validation fails */}
-          <Text as='div' size='3' mb='-2' weight='bold'>Email</Text>
+          <Text as='label' size='3' mb='-2' weight='bold'>Email</Text>
           <input className='px-2 py-2' placeholder='Enter your email' {...register('email')} />
           {errors.email?.message && <span className='text-red-500'>{errors.email?.message}</span>}
 
-          <Text as='div' size='3' mb='-2' weight='bold'>Username</Text>
+          <Text as='label' size='3' mb='-2' weight='bold'>Username</Text>
           <input className='px-2 py-2' placeholder='Enter a username' {...register('username')} />
           {errors.username?.message && <span className='text-red-500'>{errors.username?.message}</span>}
 
-          <Text as='div' size='3' mb='-2' weight='bold'>Password</Text>
+          <Text as='label' size='3' mb='-2' weight='bold'>Password</Text>
           <input className='px-2 py-2' placeholder='Enter your password' type='password' {...register('password')} />
           {errors.password?.message && <span className='text-red-500'>{errors.password?.message}</span>}
 
-          <Text as='div' size='3' mb='-2' weight='bold'>Confirm Password</Text>
+          <Text as='label' size='3' mb='-2' weight='bold'>Confirm Password</Text>
           <input className='px-2 py-2' placeholder='Re-Enter your password' type='password' {...register('confirmPassword')} />
           {errors.confirmPassword?.message && <span className='text-red-500'>{errors.confirmPassword?.message}</span>}
 
