@@ -1,16 +1,20 @@
 'use client';
 
-import { Button } from '@radix-ui/themes';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { Button, Dialog } from '@radix-ui/themes';
+import SignInForm from './signinForm';
 
 
-export default function LogInButton({ className }: { className: string }) {
-  const { data: session } = useSession();
-  const router = useRouter();
-  if (!session) {
+export default function LogInButton() {
     return (
-      <Button className={className} onClick={async () => { router.push('/login'); }}> Log In</Button>
+      <Dialog.Root>
+        <Dialog.Trigger>
+          <Button>Log In</Button>
+        </Dialog.Trigger>
+
+        <Dialog.Content style={{ maxWidth: 450 }}>
+          <Dialog.Title>Log In to Your Account</Dialog.Title>
+          <SignInForm />
+        </Dialog.Content>
+      </Dialog.Root>
     );
-  }
 }
