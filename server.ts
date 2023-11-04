@@ -38,7 +38,6 @@ app.prepare().then(() => {
     path: '/socket.io' // or any other path you need
   });
 
-  // TODO setup rooms
   io.on('connection', socket => {
     // your sockets here
     console.log('IO_CONNECTION', socket.id);

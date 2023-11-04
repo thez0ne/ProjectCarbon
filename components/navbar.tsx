@@ -31,6 +31,7 @@ export default function Navbar() {
               width={50}
               height={50}
             />
+            {/* TODO Text here refuses to be centered vertically */}
             <Text size='6' weight='bold'>Carbon</Text>
           </Flex>
         </Link>

@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth';
 import { prisma } from '@/utils/prisma';
 import ChatWindow from '@/components/channel/chatWindow';
 
-// TODO setup proper channels (private and public)
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   console.log(session);

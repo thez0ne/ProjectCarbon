@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/utils/prisma';
 
 // TODO make sure only authenticated users can send messages
-
 export async function GET() {
   const messages = await prisma.message.findMany();
   return NextResponse.json({ messages: messages }, { status: 200 });
