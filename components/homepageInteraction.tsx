@@ -2,14 +2,14 @@
 
 import { Flex, Button } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import LogOutButton from './signOutButton';
 import LogInButton from './signInButton';
 import RegisterButton from './registerButton';
+import { useRouter } from 'next/navigation';
 
-// TODO remove link, make buttons have on click
-export default function HomepageInteraction() {
+export default function HomepageInteraction({ availableChannels }: { availableChannels: Array<ChannelWOMessages> }) {
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <div>
@@ -17,15 +17,15 @@ export default function HomepageInteraction() {
         <>
           <Flex justify='center' gap='3'>
             <LogOutButton />
-            {/* TODO: Populate rooms based on db */}
-            <Button>
-              <Link href={'/channel/public'}>Go to Public Room</Link>
-            </Button>
-            {session?.user.isAdmin &&
-              <Button>
-                <Link href={'/channel/thez0ne'}>Go to Admin Room</Link>
-              </Button>
-            }
+            {availableChannels.map((channel, index) => {
+                if (!session?.user.isAdmin && channel.needsAdmin) return;
+                return (
+                  <Button style={{ cursor: 'pointer' }} onClick={() => { router.push(`channel/${channel.uriSlug}`); }} key={index}>
+                    Go to {channel.name}
+                  </Button>
+                );
+              }
+            )}
           </Flex>
         </>
         :

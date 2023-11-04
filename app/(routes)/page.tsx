@@ -1,8 +1,19 @@
 import Image from 'next/image';
 import { Flex, Text, Heading } from '@radix-ui/themes';
 import HomepageInteraction from '@/components/homepageInteraction';
+import { prisma } from '@/utils/prisma';
 
 export default async function Home() {
+
+  const channels = await prisma.channel.findMany(
+    {
+      select: {
+        name: true,
+        needsAdmin: true,
+        uriSlug: true,
+      },
+    });
+
   return (
     <main className='min-h-screen p-24'>
       <Flex className='w-full' direction='row' gap='7'>
@@ -22,7 +33,7 @@ export default async function Home() {
           <Text>
             To Begin: Login or Register for an Account
           </Text>
-          <HomepageInteraction />
+          <HomepageInteraction availableChannels={channels} />
         </Flex>
       </Flex>
     </main>
