@@ -20,6 +20,8 @@ export default async function Page({ params }: { params: { id: string } }) {
             user: {
               select: {
                 username: true,
+                email: true,
+                image: true,
               },
             },
           },
@@ -58,7 +60,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className='flex w-full flex-col items-center justify-between px-6'>
-      <ChatWindow givenUser={session.user.username} channelName={channel.name} currentMessages={channel?.messages as Message[]} />
+      <ChatWindow givenUser={session.user} channelName={channel.name} currentMessages={channel?.messages as Message[]} />
     </div>
   );
 }

@@ -15,7 +15,7 @@ const AlwaysScrollToBottom = ({ messages }: { messages: Array<Message> }) => {
   return <div ref={elementRef} />;
 };
 
-export default function ChatWindow({ givenUser, channelName, currentMessages }: { givenUser: string, channelName: string, currentMessages: Array<Message> }) {
+export default function ChatWindow({ givenUser, channelName, currentMessages }: { givenUser: User, channelName: string, currentMessages: Array<Message> }) {
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Array<Message>>([]);
 
@@ -45,7 +45,7 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: givenUser,
+        username: givenUser.username,
         message: inputMessage,
         channel: channelName
       }),
@@ -56,12 +56,12 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
     }
 
     // sending to other users
-    socket.emit('createdMessage', { user: { username: givenUser }, content: inputMessage, sentAt: msgDate });
+    socket.emit('createdMessage', { user: givenUser, content: inputMessage, sentAt: msgDate });
 
     // adding message locally
     setMessages((currentMsg) => [
       ...currentMsg,
-      { user: { username: givenUser }, content: inputMessage, sentAt: msgDate },
+      { user: givenUser, content: inputMessage, sentAt: msgDate },
     ]);
     setInputMessage('');
   };
@@ -92,9 +92,9 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
 
         {/* Messages */}
         {/* <div className='flex flex-col overflow-y-scroll grow shrink basis-auto'> */}
-        <Flex className='overflow-y-scroll' direction='column' shrink='1' grow='1'>
+        <Flex className='overflow-y-scroll select-none' direction='column' shrink='1' grow='1' onContextMenu={e => e.preventDefault()}>
           {messages.map((msg: Message, i: number) => (
-            <Message messageSender={msg.user.username} messageContent={msg.content} messageDate={msg.sentAt} key={i} />
+            <Message messageSender={msg.user} messageContent={msg.content} messageDate={msg.sentAt} key={i} />
           ))}
           <AlwaysScrollToBottom messages={messages} />
         </Flex>

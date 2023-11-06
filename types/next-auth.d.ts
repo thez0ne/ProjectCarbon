@@ -3,6 +3,8 @@ import NextAuth from 'next-auth';
 declare module 'next-auth' {
   interface User {
     username: string,
+    email: string,
+    image: string,
     isAdmin: boolean,
   }
 
@@ -13,6 +15,8 @@ declare module 'next-auth' {
     user: User
     token: {
       username: string,
+      email: string,
+      image: string,
       isAdmin: boolean,
     }
   }

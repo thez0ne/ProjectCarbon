@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
           id: profile.id.toString(),
           name: profile.name,
           username: profile.login,
-          email: profile.email,
+          email: profile.email!,
           image: profile.avatar_url,
           isAdmin: false,
         };
@@ -76,10 +76,10 @@ export const authOptions: NextAuthOptions = {
         // Any object returned will be saved in `user` property of the JWT
         return {
           id: `${existingUser.id}`,
-          email: existingUser.email,
+          email: existingUser.email!,
           username: existingUser.username,
           isAdmin: existingUser.isAdmin,
-          image: existingUser.image,
+          image: existingUser.image!,
         };
       }
     }),
@@ -90,6 +90,8 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           username: user.username,
+          email: user.email,
+          image: user.image,
           isAdmin: user.isAdmin,
         };
       }

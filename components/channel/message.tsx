@@ -1,10 +1,33 @@
 'use client';
 
-// TODO add image depending on if github user or normal user
-export default function Message({ messageSender, messageContent, messageDate }: { messageSender: string, messageContent: string, messageDate: Date }) {
+import { Avatar, ContextMenu } from '@radix-ui/themes';
+
+export default function Message({ messageSender, messageContent, messageDate }: { messageSender: User, messageContent: string, messageDate: Date }) {
   return (
-    <div className="w-full py-1 px-2 border-b border-gray-200">
-      [{messageDate.toISOString().split('T')[0]} : {messageDate.toISOString().split('T')[1]}] {messageSender} : {messageContent}
-    </div>
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <div className="w-full py-1 px-2 border-b border-dotted border-gray-200">
+          <Avatar
+            size='3'
+            src={`${messageSender.image}`}
+            fallback={`${messageSender.username[0]}`}
+            radius='small'
+            mr='4'
+          />
+          {messageSender.username} : {messageContent}
+        </div>
+      </ContextMenu.Trigger>
+      <ContextMenu.Content>
+        <ContextMenu.Item disabled>Sent At: {messageDate.toISOString().split('T')[0]} : {messageDate.toISOString().split('T')[1]}</ContextMenu.Item>
+        <ContextMenu.Item onClick={()=>{console.log('trying to copy msg: ', messageContent);}}>Copy Message</ContextMenu.Item>
+        <ContextMenu.Item onClick={()=>{console.log('trying to copy sender: ', messageSender);}}>Copy Sender Email</ContextMenu.Item>
+
+        <ContextMenu.Separator />
+
+        <ContextMenu.Item color="red" disabled>
+          Delete (WIP)
+        </ContextMenu.Item>
+      </ContextMenu.Content>
+    </ContextMenu.Root>
   );
 }
