@@ -6,6 +6,7 @@
     "dev": "node server.ts",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
+    "start:windows": "SET NODE_ENV=production & node server.js",
     "lint": "next lint"
   },
   "prisma": {
