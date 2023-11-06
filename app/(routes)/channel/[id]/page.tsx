@@ -57,10 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <p className='font-bold text-white text-xl'>
-        Your username is: {session.user.username} and we are on channel: {params.id}
-      </p>
+    <div className='flex w-full flex-col items-center justify-between px-6'>
       <ChatWindow givenUser={session.user.username} channelName={channel.name} currentMessages={channel?.messages as Message[]} />
     </div>
   );

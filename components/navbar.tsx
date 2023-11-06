@@ -19,7 +19,7 @@ export default function Navbar() {
   const letter = user?.username[0];
 
   return (
-    <div className='w-full border-b-2 border-neutral-600'>
+    <div className='w-full h-[11vh] border-b-2 border-neutral-600'>
       {/* NAVBAR */}
       <Flex className='p-4' direction='row' justify='between'>
 

@@ -1,6 +1,6 @@
 type User = {
   username: string,
-  isAdmin: boolean,
+  isAdmin?: boolean,
 }
 
 type Message = {

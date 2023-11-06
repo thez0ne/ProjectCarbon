@@ -1,11 +1,19 @@
 'use client';
 
-import { Button, TextField } from '@radix-ui/themes';
-import { useEffect, useState } from 'react';
+import { Button, Flex, Heading, Separator, TextField } from '@radix-ui/themes';
+import { useEffect, useRef, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 import Message from './message';
 
 let socket: Socket;
+
+const AlwaysScrollToBottom = ({ messages }: { messages: Array<Message> }) => {
+  const elementRef = useRef(null);
+  // elementRef will never be null
+  // @ts-ignore
+  useEffect(() => elementRef.current!.scrollIntoView({ behavior: 'smooth' }), [messages]);
+  return <div ref={elementRef} />;
+};
 
 export default function ChatWindow({ givenUser, channelName, currentMessages }: { givenUser: string, channelName: string, currentMessages: Array<Message> }) {
   const [inputMessage, setInputMessage] = useState('');
@@ -70,34 +78,50 @@ export default function ChatWindow({ givenUser, channelName, currentMessages }: 
 
   return (
     <>
-      {/* Messages */}
-      <div className='w-full'>
-        <div className="flex flex-col justify-end h-[20rem] min-w-[33%] rounded-md shadow-md ">
-          <div className="h-full last:border-b-0 overflow-y-scroll">
-            {messages.map((msg: Message, i: number) => (
-              <Message messageSender={msg.user.username} messageContent={msg.content} messageDate={msg.sentAt} key={i} />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div />
+      {/* <div className='w-full box flex flex-col h-[89vh]'> */}
+      <Flex className='h-[89vh]' direction='column' width='100%' grow='0' justify='between'>
+      
+        {/* Channel Name */}
+        {/* <div className='grow-0 shrink basis-auto py-4'> */}
+        <Flex direction='column' shrink='1' grow='0' py='4' >
+          <Heading weight='bold'>
+            {channelName}
+          </Heading>
+          <Separator size='4'/>
+        </Flex>
 
-      {/* Input */}
-      <div className='flex w-full'>
-        <TextField.Root>
-          <TextField.Input
-            value={inputMessage}
-            onInput={e => setInputMessage((e.target as HTMLInputElement).value)}
-            placeholder='Enter Message'
-            onKeyUp={handleKeypress}
-          ></TextField.Input>
-          <TextField.Slot>
-            <Button onClick={sendMessage}>
-              Send
-            </Button>
-          </TextField.Slot>
-        </TextField.Root>
-      </div>
+        {/* Messages */}
+        {/* <div className='flex flex-col overflow-y-scroll grow shrink basis-auto'> */}
+        <Flex className='overflow-y-scroll' direction='column' shrink='1' grow='1'>
+          {messages.map((msg: Message, i: number) => (
+            <Message messageSender={msg.user.username} messageContent={msg.content} messageDate={msg.sentAt} key={i} />
+          ))}
+          <AlwaysScrollToBottom messages={messages} />
+        </Flex>
+
+
+        {/* Input */}
+        {/* <div className='grow-0 shrink basis-10 pt-4'> */}
+        <Flex direction='column' shrink='1' grow='0' pt='4'>
+          <Separator mb='1' size='4'/>
+
+          <div className='w-full pb-4'>
+            <TextField.Root size='3'>
+              <TextField.Input
+                value={inputMessage}
+                onInput={e => setInputMessage((e.target as HTMLInputElement).value)}
+                placeholder='Enter Message'
+                onKeyUp={handleKeypress}
+                ></TextField.Input>
+              <TextField.Slot>
+                <Button onClick={sendMessage}>
+                  Send
+                </Button>
+              </TextField.Slot>
+            </TextField.Root>
+          </div>
+        </Flex>
+      </Flex>
     </>
   );
 }
