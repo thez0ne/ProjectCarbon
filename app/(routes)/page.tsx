@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Flex, Text, Heading, AspectRatio } from '@radix-ui/themes';
 import HomepageInteraction from '@/components/homepageInteraction';
 import { prisma } from '@/utils/prisma';
 
@@ -15,23 +15,25 @@ export default async function Home() {
     });
 
   return (
-    <main className='min-h-screen p-24'>
-      <Flex className='w-full' direction='row' gap='7'>
+    <main className='min-h-screen py-8 px-12'>
+      <Flex className='w-full items-center' direction={{ md: 'row', initial: 'column'}} gap='7'>
         <Image
           src='./carbonlogowbkg.svg'
           alt='Carbon App Logo'
-          width={500}
-          height={500}
+          height={0}
+          width={0}
+          className='w-[100%] md:w-[50%]'
         />
         <Flex className='w-full text-center' justify='center' direction='column' gap='6'>
-          <Heading size='8'>
+          <Heading size={{ md: '8', initial: '6'}}>
             Welcome to Carbon!
           </Heading>
-          <Text className='text-lg' size='6' trim='both'>
+          <Text size={{ md: '6', initial: '4'}} trim='both'>
             Another Alternative Chat App
           </Text>
           <Text>
-            To Begin: Login or Register for an Account
+            To Begin: Login or Register a new Account.<br/>
+            You can even Login with GitHub without registering!
           </Text>
           <HomepageInteraction availableChannels={channels} />
         </Flex>
