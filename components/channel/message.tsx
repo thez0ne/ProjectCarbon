@@ -3,6 +3,11 @@
 import { Avatar, ContextMenu } from '@radix-ui/themes';
 
 export default function Message({ messageSender, messageContent, messageDate }: { messageSender: User, messageContent: string, messageDate: Date }) {
+  
+  const CopyToClipboard = (data: string) => {
+    navigator.clipboard.writeText(data);
+  };
+  
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
@@ -19,8 +24,13 @@ export default function Message({ messageSender, messageContent, messageDate }: 
       </ContextMenu.Trigger>
       <ContextMenu.Content>
         <ContextMenu.Item disabled>Sent At: {messageDate.toISOString().split('T')[0]} : {messageDate.toISOString().split('T')[1]}</ContextMenu.Item>
-        <ContextMenu.Item onClick={()=>{console.log('trying to copy msg: ', messageContent);}}>Copy Message</ContextMenu.Item>
-        <ContextMenu.Item onClick={()=>{console.log('trying to copy sender: ', messageSender);}}>Copy Sender Email</ContextMenu.Item>
+        <ContextMenu.Item onClick={()=>{ CopyToClipboard(messageContent); }}>Copy Message</ContextMenu.Item>
+        <ContextMenu.Item onClick={()=>{ CopyToClipboard(messageSender.email); }}>Copy Sender Email</ContextMenu.Item>
+        {messageSender.image ? 
+          <ContextMenu.Item onClick={()=>{ CopyToClipboard(messageSender.image!); }}>Copy Sender Image Link</ContextMenu.Item>
+        :
+          <></>
+        }
 
         <ContextMenu.Separator />
 
