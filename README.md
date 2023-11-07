@@ -21,3 +21,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [Zod](https://zod.dev/)
 - [Radix UI](https://www.radix-ui.com/)
 - [React Toastify](https://www.npmjs.com/package/react-toastify)
+
+## Future Improvements
+
+- [ ] Pagination and Infinite scrolling for messages in chat
+- [ ] Popup mini-profile when clicking on sender image in chatwindow
+- [ ] Admins being able to delete messages
+- [ ] Reactions and Replies
