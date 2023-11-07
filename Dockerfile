@@ -1,21 +1,26 @@
-FROM node:alpine
+FROM node:alpine AS builder
 
-WORKDIR /usr/app
+WORKDIR /app
 
 RUN npm install --global pm2
 
 COPY ./package*.json ./
 
-RUN npm install --omit=dev
+RUN npm install
 
 COPY ./ ./
 
 RUN npx prisma migrate deploy
 
+
 RUN npm run build
 
-EXPOSE 3001
+FROM node:alpine
 
-USER node
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
 
-CMD [ "pm2-runtime", "start", "npm", "--", "start" ]
+EXPOSE 3000
+
+CMD [ "npm", "run", "start" ]
