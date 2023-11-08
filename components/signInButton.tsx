@@ -8,7 +8,7 @@ export default function LogInButton() {
     return (
       <Dialog.Root>
         <Dialog.Trigger>
-          <Button>Log In</Button>
+          <Button className='bg-[#ffc53d] hover:bg-[#ffd60a]'>Log In</Button>
         </Dialog.Trigger>
 
         <Dialog.Content style={{ maxWidth: 450 }}>

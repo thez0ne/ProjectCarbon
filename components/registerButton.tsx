@@ -8,7 +8,7 @@ export default function RegisterButton() {
     return (
       <Dialog.Root>
         <Dialog.Trigger>
-          <Button>Register</Button>
+          <Button className='bg-[#ffc53d] hover:bg-[#ffd60a]'>Register</Button>
         </Dialog.Trigger>
 
         <Dialog.Content style={{ maxWidth: 450 }}>

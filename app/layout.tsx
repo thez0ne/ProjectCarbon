@@ -50,7 +50,7 @@ export default function RootLayout({
 
   return (
     <html lang='en'>
-      <body className='overflow-y-hidden'>
+      <body>
         <Theme appearance='dark' accentColor='amber' grayColor='slate' radius='small'>
           <SessionProvider>
             <Navbar />
