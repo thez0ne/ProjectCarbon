@@ -13,16 +13,6 @@ const userSchema = z
       .min(8, 'Password needs more than 8 characters'),
   });
 
-export async function GET() {
-  const users = await prisma.user.findMany();
-  return NextResponse.json({ message: users }, { status: 200 });
-}
-
-export async function DELETE() {
-  const _ = await prisma.user.deleteMany();
-  return NextResponse.json({ message: 'deleted everythign' }, { status: 200 });
-}
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
