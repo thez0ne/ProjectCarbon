@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "prestart:docker": "npm run prisma:generate && npm run prisma:migrate",
+    "start:docker": "npm run build && NODE_ENV=production node server.js -p 3001",
+    "start": "NODE_ENV=production node server.js -p 3001",
     "start:windows": "SET NODE_ENV=production & node server.js",
     "lint": "next lint"
   },

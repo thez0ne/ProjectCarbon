@@ -1,8 +1,6 @@
-FROM node:alpine AS builder
+FROM node:alpine
 
 WORKDIR /app
-
-RUN npm install --global pm2
 
 COPY ./package*.json ./
 
@@ -10,17 +8,8 @@ RUN npm install
 
 COPY ./ ./
 
-RUN npx prisma migrate deploy
+RUN npx prisma generate
 
+EXPOSE 3001
 
-RUN npm run build
-
-FROM node:alpine
-
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-
-EXPOSE 3000
-
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "start:docker" ]
