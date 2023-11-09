@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Flex, Text, Heading, AspectRatio } from '@radix-ui/themes';
+import { Flex, Text, Heading } from '@radix-ui/themes';
 import HomepageInteraction from '@/components/homepageInteraction';
 import { prisma } from '@/utils/prisma';
 

@@ -23,7 +23,7 @@ export default function Message({ messageSender, messageContent, messageDate }: 
         </div>
       </ContextMenu.Trigger>
       <ContextMenu.Content>
-        <ContextMenu.Item disabled>Sent At: {messageDate.toISOString().split('T')[0]} : {messageDate.toISOString().split('T')[1]}</ContextMenu.Item>
+        <ContextMenu.Item disabled>Sent at: {messageDate.toISOString().split('T')[0]} : {messageDate.toISOString().split('T')[1].split('.')[0]}</ContextMenu.Item>
         <ContextMenu.Item onClick={()=>{ CopyToClipboard(messageContent); }}>Copy Message</ContextMenu.Item>
         <ContextMenu.Item onClick={()=>{ CopyToClipboard(messageSender.email); }}>Copy Sender Email</ContextMenu.Item>
         {messageSender.image ? 

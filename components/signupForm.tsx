@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Flex, Text, Button } from '@radix-ui/themes';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
 import { z } from 'zod';
 
 const FormSchema = z
@@ -44,7 +45,7 @@ export default function SignUpForm() {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (data) => {
-    console.log(data);
+    // console.log(data);
     const response = await fetch('/api/user', {
       method: 'POST',
       headers: {
@@ -61,6 +62,11 @@ export default function SignUpForm() {
       router.push('/login');
     } else {
       console.error(`Registration Failed: ${response.status}`);
+      const jsonResponse: { message: string } = await response.json();
+      toast(`Failed to register: ${jsonResponse.message}`, {
+        theme: 'dark',
+        hideProgressBar: true,
+      });
     }
   };
 
@@ -87,6 +93,7 @@ export default function SignUpForm() {
 
         </Flex>
         <Button>Submit</Button>
+        <ToastContainer />
       </Flex>
     </form>
   );

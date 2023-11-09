@@ -5,7 +5,7 @@ import ChatWindow from '@/components/channel/chatWindow';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  // console.log(session);
 
   const channel = await prisma.channel.findUnique(
     {
@@ -28,6 +28,15 @@ export default async function Page({ params }: { params: { id: string } }) {
         },
       },
     });
+
+    const channels = await prisma.channel.findMany(
+      {
+        select: {
+          name: true,
+          needsAdmin: true,
+          uriSlug: true,
+        },
+      });
 
   // check if user is logged in
   if (!session?.user) {
@@ -60,7 +69,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className='flex w-full flex-col items-center justify-between px-6'>
-      <ChatWindow givenUser={session.user} channelName={channel.name} currentMessages={channel?.messages as Message[]} />
+      <ChatWindow givenUser={session.user} channelName={channel.name} currentMessages={channel?.messages as Message[]} availableChannels={channels} />
     </div>
   );
 }

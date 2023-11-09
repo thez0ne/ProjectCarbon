@@ -36,7 +36,7 @@ export default function SignInForm() {
   const router = useRouter();
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (data, e?: React.BaseSyntheticEvent) => {
     e?.preventDefault();
-    console.log(data);
+    // console.log(data);
     const signInData = await signIn('credentials', {
       email: data.email,
       password: data.password,
@@ -45,7 +45,7 @@ export default function SignInForm() {
     console.log('signed in: ', signInData);
     if (signInData?.ok) {
       router.refresh();
-      router.push('/channel/public');
+      router.push('/');
     } else {
       // TODO get message about failure from api/auth
       toast('Failed to login', {
@@ -56,7 +56,7 @@ export default function SignInForm() {
   };
 
   const signInWithGithub = async (data: any) => {
-    console.log('yesyes githubing time', data);
+    // console.log('yesyes githubing time', data);
     signIn('github', { callbackUrl: '/', redirect: false });
   };
 
