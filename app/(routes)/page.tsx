@@ -22,7 +22,7 @@ export default async function Home() {
           alt='Carbon App Logo'
           height={0}
           width={0}
-          className='w-[100%] md:w-[50%]'
+          className='w-[100%] sm:w-[50%] 2xl:w-[40%]'
         />
         <Flex className='w-full text-center' justify='center' direction='column' gap='6'>
           <Heading size={{ md: '8', initial: '6'}}>
