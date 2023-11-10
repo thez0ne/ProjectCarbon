@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: 'the_z0ne',
     images: [
       {
-        url: 'https://carbon.thez0ne.xyz/carbonlogowbkg.svg',
+        url: 'https://carbon.thez0ne.xyz/carbonlogowbkg.png',
         width: 100,
         height: 100,
       },
