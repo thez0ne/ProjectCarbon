@@ -9,11 +9,6 @@ const nextConfig = {
           source: '/(.*)',
           headers: [
             {
-              key: 'Content-Security-Policy',
-              value:
-                "default-src 'self'; font-src 'self' 'https://fonts.googleapis.com'; img-src 'self'; script-src 'self'",
-            },
-            {
               key: 'X-Frame-Options',
               value: 'DENY',
             },
