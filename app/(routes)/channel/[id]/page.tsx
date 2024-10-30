@@ -3,13 +3,13 @@ import { getServerSession } from 'next-auth';
 import { prisma } from '@/utils/prisma';
 import ChatWindow from '@/components/channel/chatWindow';
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   // console.log(session);
 
   const channel = await prisma.channel.findUnique(
     {
-      where: { uriSlug: params.id },
+      where: { uriSlug: (await params).id },
       select: {
         name: true,
         needsAdmin: true,
